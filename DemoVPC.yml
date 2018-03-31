@@ -1,0 +1,32 @@
+--- #1.Create a Custom VPC with 2 Public Subnets and 2 Private Subnets,Internet GateWay and Security Group.
+    #2.Create and Activate VPC Peering.
+    #3.Create a Custom Route Table with the subnet associations routing to IGW and VPC Peering ID.
+    #4.Append the default AWS VPC route table with IGW and VPC Peering ID.
+    #5.Launch an EC2 Instance in the custom VPC and add it to ansible hosts.
+    #6.Install HTTPD and Verify the application.
+    
+
+- hosts: local
+  connection: local
+  gather_facts: yes
+  roles:
+    - vpc
+    - vpcpeer
+    - pr
+    - ec2
+    
+- hosts: group1
+  connection: ssh
+  user: ec2-user
+  sudo: yes
+  gather_facts: yes
+  roles: 
+    - httpd
+
+- hosts: local
+  connection: local
+  gather_facts: yes
+  roles:
+    - elb
+
+
