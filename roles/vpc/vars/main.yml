@@ -1,0 +1,29 @@
+---
+# AWS Credentials
+myaccess: "AKIAIPCJZFK6WZU4SO5A"
+mysecret: "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"
+myregion: "us-west-2"
+
+#VPC Information
+myvpc: "Test_VPC"
+mycidr: "10.0.0.0/16"
+
+# Subnets
+
+mypubsubcidr1: "10.0.1.0/24"
+mypubsubcidr2: "10.0.2.0/24"
+
+myprisubcidr1: "10.0.3.0/24"
+myprisubcidr2: "10.0.4.0/24"
+
+#Defcidr
+
+#defcidr: "172.31.0.0/16"
+
+#Key
+
+mykey: "key"
+myinst: "t2.micro"
+myamid: "ami-f2d3638a"
+mysec: "Test_SecGrp"
+
