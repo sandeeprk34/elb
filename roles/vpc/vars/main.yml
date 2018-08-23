@@ -22,8 +22,8 @@ myprisubcidr2: "10.0.4.0/24"
 
 #Key
 
-mykey: "key"
-myinst: "t2.micro"
-myamid: "ami-f2d3638a"
-mysec: "Test_SecGrp"
+#mykey: "key"
+#myinst: "t2.micro"
+#myamid: "ami-f2d3638a"
+#mysec: "Test_SecGrp"
 
