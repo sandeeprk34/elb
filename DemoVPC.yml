@@ -11,22 +11,6 @@
   gather_facts: yes
   roles:
     - vpc
-    - vpcpeer
-    - pr
-    - ec2
-    
-- hosts: group1
-  connection: ssh
-  user: ec2-user
-  sudo: yes
-  gather_facts: yes
-  roles: 
-    - httpd
-
-- hosts: local
-  connection: local
-  gather_facts: yes
-  roles:
-    - elb
+  
 
 
