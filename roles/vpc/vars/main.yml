@@ -1,7 +1,7 @@
 ---
 # AWS Credentials
-myaccess: "AKIAIPCJZFK6WZU4SO5A"
-mysecret: "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"
+myaccess: "AKIAI2CULHINSAXPCNMQ"
+mysecret: "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"
 myregion: "us-west-2"
 
 #VPC Information
