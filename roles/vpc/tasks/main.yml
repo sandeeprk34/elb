@@ -1,0 +1,125 @@
+--- #1.Create a Custom VPC with 2 Public Subnets and 2 Private Subnets,Internet GateWay and Security Group.
+- name:               Create VPC
+  ec2_vpc_net:
+    name:             "{{ myvpc }}"
+    cidr_block:       "{{ mycidr }}"
+    region:           "{{ myregion }}"
+    aws_access_key:   "{{ myaccess }}"
+    aws_secret_key:   "{{ mysecret }}"
+    state:            "present"
+  register: vpcc
+- name:               Set VPC ID in variable
+  set_fact:
+    vpcid:           "{{ vpcc.vpc.id }}"
+- name:               Create Public Subnet1 in US-WEST-2A
+  ec2_vpc_subnet:
+    state:            "present"
+    vpc_id:           "{{ vpcid }}"
+    cidr:             "{{ mypubsubcidr1 }}"
+    az:               "{{ myregion }}a"
+    region:           "{{ myregion }}"
+    aws_access_key:   "{{ myaccess }}"
+    aws_secret_key:   "{{ mysecret }}"
+    resource_tags:
+      Name:           "Test_Public_Subnet1"
+  register: pubs1
+- name:               Set Public Subnet1 ID in variable
+  set_fact:
+    pubsid1: "{{ pubs1.subnet.id }}"
+- name:               Create Private Subnet1  in US-WEST-2A
+  ec2_vpc_subnet:
+    state:            "present"
+    vpc_id:           "{{ vpcid }}"
+    cidr:             "{{ myprisubcidr1 }}"
+    az:               "{{ myregion }}a"
+    region:           "{{ myregion }}"
+    aws_access_key:   "{{ myaccess }}"
+    aws_secret_key:   "{{ mysecret }}"
+    resource_tags:
+      Name:           "Test_Private_Subnet1"
+  register: pris1
+
+- name:               Set Private Subnet1 ID in variable
+  set_fact:
+    prisid1: "{{ pris1.subnet.id }}"
+- name:               Create Public Subnet2  in US-WEST-2B
+  ec2_vpc_subnet:
+    state:            "present"
+    vpc_id:           "{{ vpcid }}"
+    cidr:             "{{ mypubsubcidr2 }}"
+    az:               "{{ myregion }}b"
+    region:           "{{ myregion }}"
+    aws_access_key:   "{{ myaccess }}"
+    aws_secret_key:   "{{ mysecret }}"
+    resource_tags:
+      Name:           "Test_Public_Subnet2"
+  register: pubs2
+- name:               Set Public Subnet ID2 in variable
+  set_fact:
+    pubsid2: "{{ pubs2.subnet.id }}"
+- name:               Create Private Subnet2 in US-WEST-2B
+  ec2_vpc_subnet:
+    state:            "present"
+    vpc_id:           "{{ vpcid }}"
+    cidr:             "{{ myprisubcidr2 }}"
+    az:               "{{ myregion }}b"
+    region:           "{{ myregion }}"
+    aws_access_key:   "{{ myaccess }}"
+    aws_secret_key:   "{{ mysecret }}"
+    resource_tags:
+      Name:           "Test_Private_Subnet2"
+  register: pris2
+
+- name:               Set Private Subnet2 ID in variable
+  set_fact:
+    prisid2: "{{ pris2.subnet.id }}"
+
+
+- name:               Create Internet Gateway for VPC
+  ec2_vpc_igw:
+    vpc_id:           "{{ vpcid }}"
+    region:           "{{ myregion }}"
+    aws_access_key:   "{{ myaccess }}"
+    aws_secret_key:   "{{ mysecret }}"
+    state:            "present"
+    tags: 
+      Name: Test_IGW
+  register: myigw
+- name:               Set Internet Gateway ID in variable
+  set_fact:
+    igwid:           "{{ myigw.gateway_id }}"
+
+
+- name:               Create Main Security Group
+  ec2_group:
+    name:             "Test_SecGrp"
+    description:      "My Security Group"
+    vpc_id:           "{{ vpcid }}"
+    region:           "{{ myregion }}"
+    aws_access_key:   "{{ myaccess }}"
+    aws_secret_key:   "{{ mysecret }}"
+    rules: 
+     - proto: tcp
+       from_port: 22
+       to_port: 22
+       cidr_ip: 0.0.0.0/0
+     - proto: tcp
+       from_port: 80
+       to_port: 80
+       cidr_ip: 0.0.0.0/0
+     - proto: tcp
+       from_port: 443
+       to_port: 443
+       cidr_ip: 0.0.0.0/0
+    rules_egress: 
+     - proto: all
+       cidr_ip: 0.0.0.0/0
+  register: sec
+- debug: var=sec
+
+
+- name: Sec Grp ID
+  set_fact:
+    gid: "{{ sec.group_id }}"
+
+    
