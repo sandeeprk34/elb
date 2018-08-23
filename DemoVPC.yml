@@ -6,7 +6,7 @@
     #6.Install HTTPD and Verify the application.
     
 
-- hosts: local
+- hosts: localhost
   connection: local
   gather_facts: yes
   roles:
